@@ -13,7 +13,7 @@
 
 ## Descripción del Proyecto
 
-Bienvenido al repositorio del frontend de la Plataforma Interactiva del Blog de Viajes. Este proyecto utiliza React como biblioteca principal, junto con Tailwind CSS y DaisyUI para lograr un diseño atractivo y una experiencia de usuario amigable. La plataforma permite a los usuarios compartir y descubrir experiencias del Blog de viajes únicas.
+Bienvenido al repositorio del frontend de la Plataforma Interactiva del Blog de Viajes. Este proyecto utiliza React como biblioteca principal, junto con Tailwind CSS y DaisyUI para lograr un diseño atractivo y una experiencia de usuario amigable. La plataforma permite a los usuarios compartir y descubrir experiencias de viajes únicas.
 
 ## Instrucciones para Ejecutar Localmente
 
