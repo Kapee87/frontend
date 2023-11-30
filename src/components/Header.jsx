@@ -1,13 +1,13 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import LoginBtn from './headerMicroComponents/LoginBtn'
+import LogoBtn from './headerMicroComponents/LogoBtn'
 
 function Header() {
     return (
         <header className="navbar bg-base-100">
-
             <div className="flex-1">
-                <NavLink to={"/"} className="btn btn-ghost text-xl">Inicio</NavLink>
+                <LogoBtn />
             </div>
 
             <div className="flex-none">

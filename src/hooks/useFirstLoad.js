@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 
 export function useFirstLoad() {
     const { userData, setUserData, token } = useContext(UserContext)
-    
+
     // console.log(token);
     useEffect(() => {
         async function loadaxios() {
@@ -15,12 +15,11 @@ export function useFirstLoad() {
                 //     }
                 // });
                 // console.log(data.user);
-                const verObj = {
-                    "email": "hector@gmail.com",
-                    "online": true
-                }
-                setUserData(verObj)
-                // console.log(userData)
+                // const verObj = {
+                //     "email": "hector@gmail.com",
+                //     "online": true
+                // }
+                setUserData(JSON.parse(sessionStorage.getItem('user')))
             } catch (error) {
                 console.log(error)
                 sessionStorage.removeItem('token')
