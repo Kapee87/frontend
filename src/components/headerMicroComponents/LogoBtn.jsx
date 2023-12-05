@@ -4,11 +4,13 @@ import { NavLink } from 'react-router-dom'
 
 function LogoBtn() {
     return (
-        <NavLink to="/" className="btn w-56 p-0 animate-hueRotate">
-            <div style={{ "backgroundImage": `url(${logo})` }} className='bg-cover bg-no-repeat bg-center w-full h-12 rounded-md'>
-            </div>
+        <NavLink to={'/'} style={{ "backgroundImage": `url(${logo})` }} className='bg-contain bg-no-repeat bg-center h-14 w-32 md:w-52 rounded-md'>
         </NavLink>
     )
 }
 
 export default LogoBtn
+
+
+{/* <NavLink to="/" className="btn bg-transparent w-32 md:w-56 p-0 animate-hueRotate">
+        </NavLink> */}

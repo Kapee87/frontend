@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { UserContext } from "../context/UserContextB";
+import { UserContext } from "../context/UserContext";
+import randomUser from '../assets/randomUser.jpg'
 
 export function useUserHandler() {
     const { setUserData, token } = useContext(UserContext)
@@ -10,15 +11,18 @@ export function useUserHandler() {
     }
 
     const login = () => {
-        setUserData({
-            "email": "hector@gmail.com",
-            "online": true
-        })
+        const tempUser = {
+            "email": "juanfernito@mail.com",
+            "name": "juanfer",
+            "avatarUrl": randomUser
+        }
         sessionStorage.setItem('token', '123qwe')
+        sessionStorage.setItem('user', JSON.stringify(tempUser))
+        setUserData(tempUser)
     }
 
     const isLogged = () => {
-        return token.length > 0
+        return token
     }
 
     return { logout, login, isLogged }
