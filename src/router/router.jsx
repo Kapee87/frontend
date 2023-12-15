@@ -4,6 +4,8 @@ import PageNotFound from '../pages/PageNotFound'
 import Home from '../pages/Home'
 import NewPost from '../components/NewPost'
 import ProtectedRoute from './ProtectedRoute'
+import PostDetail from '../pages/PostDetail'
+import Signin from '../pages/Signin'
 
 
 const router = createBrowserRouter([
@@ -20,6 +22,16 @@ const router = createBrowserRouter([
                         <NewPost />
                     </ProtectedRoute>
             },
+            {
+                path: '/post/:id',
+                element:
+                    <PostDetail />
+            },
+            {
+                path: '/register',
+                element:
+                    <Signin />
+            }
             // { path: '/login', element: <Login /> },
 
 

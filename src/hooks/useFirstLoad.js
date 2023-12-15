@@ -19,7 +19,7 @@ export function useFirstLoad() {
                 //     "email": "hector@gmail.com",
                 //     "online": true
                 // }
-                setUserData(JSON.parse(sessionStorage.getItem('user')))
+                setUserData(JSON.parse(sessionStorage.getItem('userData')))
             } catch (error) {
                 console.log(error)
                 sessionStorage.removeItem('token')

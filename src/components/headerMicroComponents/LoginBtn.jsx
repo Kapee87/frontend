@@ -1,34 +1,48 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import { UserContext } from '../../context/UserContext'
 import { useFirstLoad } from '../../hooks/useFirstLoad'
 import { useNavigate } from 'react-router-dom'
 import { useUserHandler } from '../../hooks/useUserHandler'
+
+const genericAvatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU3jvkkZz-fiLioZZcyhugT2K7wghnw9THwg&usqp=CAU'
 
 function LoginBtn() {
     const { token } = useFirstLoad()
     const { userData } = useContext(UserContext)
     const { logout, isLogged, login } = useUserHandler()
     const navigate = useNavigate()
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    })
+    const inputRefs = {
+        email: useRef(null),
+        password: useRef(null),
+    };
 
-    const handleLogin = async () => {
-        const res = await login()
-        // console.log(res);
-        navigate('/')
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        const emailValue = inputRefs.email.current.value;
+        const passwordValue = inputRefs.password.current.value;
+        // console.log(`Email: ${emailValue}, Contraseña: ${passwordValue}`);
+
+        const res = await login(emailValue, passwordValue);
+        console.log(res);
+        // navigate('/', { replace: true });
     }
-    const handleCloseSession = async () => {
-        isLogged() ? logout() : ''
+
+    const handleCloseSession = () => {
+        if (isLogged()) {
+            logout()
+            navigate('/', { replace: true })
+        }
     }
+
+
     return (
         <div className="mr-8 tooltip tooltip-bottom" data-tip="Iniciar sesión">
             <button className={`btn btn-square btn-ghost text-2xl`} onClick={() => document.getElementById('my_modal_2').showModal()}>
                 🔐
             </button>
             <dialog id="my_modal_2" className="modal">
-                <div className="modal-box">
+                <div className="modal-box flex flex-col gap-5
+                ">
                     <h3 className="font-bold text-lg">
                         {!token ? 'Inicio de sesión' : 'Bienvenid@'}
                     </h3>
@@ -37,9 +51,9 @@ function LoginBtn() {
                         //usuario logeado o no condiciona el contenido
                         token & userData?.avatarUrl ?
                             <div className="avatar">
-                                {userData.name}
+                                {userData?.name}
                                 <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                    <img src={userData?.avatarUrl} alt={userData?.avatarUrl} />
+                                    <img src={userData?.avatarUrl || genericAvatar} alt={userData?.avatarUrl} />
                                 </div>
                             </div>
                             : ''
@@ -49,10 +63,10 @@ function LoginBtn() {
                             <div className='flex flex-col gap-6 items-center mt-4'>
                                 <div className="avatar">
                                     <div className="w-24 rounded-full">
-                                        <img src={userData.avatarUrl} />
+                                        <img src={userData?.avatarUrl} />
                                     </div>
                                 </div>
-                                <h3>{userData.email} </h3>
+                                <h3>{userData?.email} </h3>
                                 <button className='btn btn-outline ' onClick={handleCloseSession} >
                                     Cerrar sesión
                                 </button>
@@ -61,12 +75,13 @@ function LoginBtn() {
                             :
                             <form action="" className='flex flex-col items-center gap-2 [&_label_input]:rounded-md [&_label_input]:text-sm [&_label_input]:text-center [&_label_input]:ml-4 [&_label]:w-full' onSubmit={handleLogin}>
                                 <label htmlFor="email">Email:
-                                    <input type="text" id='email' disabled placeholder='mock de login' />
+                                    <input type="email" name='email' ref={inputRefs.email} placeholder='email de usuario' />
                                 </label>
                                 <label htmlFor="password">Contraseña:
-                                    <input type="text" id='password' disabled placeholder='mock de login' />
+                                    <input type="password" name='password' ref={inputRefs.password} placeholder='contraseña' />
                                 </label>
                                 <button type='submit' className='btn btn-outline'>iniciar sesión</button>
+                                <span>¿No tenés cuenta?, <a href={'/register'}>registrate gratis! </a></span>
                             </form>
                     }
                     <p className="pt-14 opacity-60 text-xs">Press ESC key or click outside to close</p>

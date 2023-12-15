@@ -1,3 +1,4 @@
 export function useIsLogged() {
-    return sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
+    return { token }
 }
