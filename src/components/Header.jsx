@@ -7,9 +7,9 @@ import Cookies from 'js-cookie'
 
 function Header() {
     const location = useLocation()
-    useEffect(() => {
+    /* useEffect(() => {
         console.log(location.pathname);
-    }, [location.pathname])
+    }, [location.pathname]) */
 
     const { userData } = useContext(UserContext)
     const scrollToAncla = () => {
@@ -22,7 +22,7 @@ function Header() {
         }
     };
     return (
-        <header className="navbar bg-base-100">
+        <header className="navbar bg-base-100 max-w-full">
             <div className="flex-1 animate-hueRotate">
                 <LogoBtn />
             </div>

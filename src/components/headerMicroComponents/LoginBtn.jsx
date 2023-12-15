@@ -1,20 +1,26 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { UserContext } from '../../context/UserContext'
-import { useFirstLoad } from '../../hooks/useFirstLoad'
 import { useNavigate } from 'react-router-dom'
 import { useUserHandler } from '../../hooks/useUserHandler'
+import { useIsLogged } from '../../hooks/useIslogged'
 
 const genericAvatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU3jvkkZz-fiLioZZcyhugT2K7wghnw9THwg&usqp=CAU'
 
 function LoginBtn() {
-    const { token } = useFirstLoad()
+    const { token } = useIsLogged()
     const { userData } = useContext(UserContext)
-    const { logout, isLogged, login } = useUserHandler()
+    const { logout, isLogged, login, profile } = useUserHandler()
     const navigate = useNavigate()
+
     const inputRefs = {
         email: useRef(null),
         password: useRef(null),
     };
+
+    useEffect(() => {
+        token ? profile(token) : ''
+        // console.log(userData);
+    }, [])
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -22,15 +28,15 @@ function LoginBtn() {
         const passwordValue = inputRefs.password.current.value;
         // console.log(`Email: ${emailValue}, Contraseña: ${passwordValue}`);
 
-        const res = await login(emailValue, passwordValue);
-        console.log(res);
-        // navigate('/', { replace: true });
+        login(emailValue, passwordValue);
+        if (isLogged())
+            navigate('/', { replace: true })
     }
 
     const handleCloseSession = () => {
         if (isLogged()) {
             logout()
-            navigate('/', { replace: true })
+            window.location = '/'
         }
     }
 

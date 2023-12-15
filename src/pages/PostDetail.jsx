@@ -7,6 +7,7 @@ import { useIsLogged } from '../hooks/useIslogged';
 import Swal from 'sweetalert2';
 import { useUserHandler } from '../hooks/useUserHandler';
 import { UserContext } from '../context/UserContext';
+import { apiUrl } from '../utils/urlStore';
 
 function PostDetail() {
     const { isLogged } = useUserHandler()
@@ -28,21 +29,22 @@ function PostDetail() {
             console.log(isLogged());
     }
     const prueba = async () => {
-        const res = await axios.post('http://localhost:3000/auth/profile')
+        const res = await axios.post(`${apiUrl}/auth/profile`)
         console.log(res)
-        // console.log(post.autor.email);
-        // console.log(userData.email);
-        // console.log(userData.email == post.autor.email);
-
     }
 
     return (
         <>
-            <button className='btn absolute right-5 z-50' onClick={prueba}>prueba</button >
+            {/* debuggin */}
+            {/* <button className='btn absolute right-5 z-50' onClick={prueba}>prueba</button > */}
+
             <section className='hero relative'>
-                {isLogged() ? <div className='h-14 w-fit btn absolute p-2 top-5 tooltip flex overflow-hidden' data-tip='Eliminar'>
+
+                {/* Para implementar más adelante, que cada usuario pueda borrar el post si es el autor */}
+                {/* {isLogged() ? <div className='h-14 w-fit btn absolute p-2 top-5 tooltip flex overflow-hidden' data-tip='Eliminar'>
                     <span>❌</span> <span className='translate-y-'>Eliminar Post</span>
-                </div> : ''}
+                </div> : ''} */}
+
                 {
                     post ?
                         <article className='py-20 flex flex-col justify-center items-center gap-5'>

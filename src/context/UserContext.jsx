@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { useFirstLoad } from "../hooks/useFirstLoad";
 
 
 export const UserContext = createContext({
@@ -8,7 +9,7 @@ export const UserContext = createContext({
 
 export const UserContextProvider = ({ children, initial = {} }) => {
     const [userData, setUserData] = useState(initial)
-    const token = sessionStorage.getItem('token')
+    const { token } = useFirstLoad()
 
     return (
         <UserContext.Provider value={{ userData, setUserData, token }}>

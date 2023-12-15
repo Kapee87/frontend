@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { UserContext } from '../context/UserContext';
 
 function Signin() {
-    const { isLogged, login, logout } = useUserHandler()
+    const { isLogged, login, logout, register } = useUserHandler()
     const { userData } = useContext(UserContext)
     useEffect(() => {
         // console.log(isLogged() ? true : false);
@@ -30,22 +30,9 @@ function Signin() {
         const username = inputRefs.usernameValue.current.value;
         const avatarUrl = inputRefs.avatarUrlValue.current.value;
         // console.log(email, username, password, avatarUrl);
-        try {
-            const newUser = await axios.post(`${apiUrl}/auth/register`, {
-                username,
-                email,
-                password,
-                avatarUrl
-            })
-            console.log(newUser.status !== 200, newUser.status, newUser);
-
-            Swal.fire('Exito', 'Usuario registrado con éxito', 'success')
+        const res = await register(username, email, password, avatarUrl)
+        if (res)
             navigate('/', { replace: true })
-
-        } catch (error) {
-            console.log(error);
-            Swal.fire('error', `${error.response.data.middleMessage}`, 'error')
-        }
     }
     const handleSignOut = async (e) => {
         if (isLogged()) {
@@ -57,17 +44,17 @@ function Signin() {
 
     return (
         <section className='hero min-h-[83vh] justify-center'>
-            <div className='flex flex-col gap-5 items-baseline border-2 border-orange-100 p-20 rounded-lg [&_input]:rounded-md [&_input]:ms-3 [&_input]:p-2 shadow-xl shadow-slate-700' >
+            <div className='border-2 border-orange-100 p-20 rounded-lg [&_input]:rounded-md [&_input]:ms-3 [&_input]:p-2 shadow-xl shadow-slate-700' >
                 {
                     isLogged() ?
-                        <form onSubmit={handleSignOut}>
+                        <form onSubmit={handleSignOut} className='flex flex-col gap-5 items-baseline' >
                             <h3>{userData?.name}</h3>
                             <h4>{userData?.email}</h4>
                             <img src={userData?.avatarUrl} alt={userData?.name} />
                             <button type="submit">Cerrar Sesión</button>
                         </form>
 
-                        : <form onSubmit={handleSignIn}>
+                        : <form onSubmit={handleSignIn} className='flex flex-col gap-5 items-baseline' >
                             <label>Nombre de usuario :<input type="text" name='usernameValue' ref={inputRefs.usernameValue} minLength={6} /></label>
                             <label>Correo Electrónico :<input type="email" name='emailValue' ref={inputRefs.emailValue} /></label>
                             <label>Contraseña :<input type="password" name='passwordValue' ref={inputRefs.passwordValue} minLength={6} /></label>

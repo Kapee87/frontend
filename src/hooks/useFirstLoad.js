@@ -1,35 +1,35 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { useUserHandler } from "./useUserHandler";
+import { useIsLogged } from "./useIslogged";
+
 // import axios from "axios";
 
 export function useFirstLoad() {
-    const { userData, setUserData, token } = useContext(UserContext)
+    const { profile } = useUserHandler()
+    const { token } = useIsLogged()
+    const { userData, setUserData } = useContext(UserContext)
 
     // console.log(token);
     useEffect(() => {
+
+
         async function loadaxios() {
             try {
-                // const { data } = await axios.post('https://melvera-api.onrender.com/api/auth/token', {}, {
-                //     headers: {
-                //         Authorization: `Bearer ${token}`
-                //     }
-                // });
-                // console.log(data.user);
-                // const verObj = {
-                //     "email": "hector@gmail.com",
-                //     "online": true
-                // }
-                setUserData(JSON.parse(sessionStorage.getItem('userData')))
+                profile(token)
             } catch (error) {
-                console.log(error)
-                sessionStorage.removeItem('token')
-                setUserData(null)
+                console.log(error);
             }
         }
-        token
-            ? loadaxios()
-            : setUserData(null)
-        // console.log(userData);
+
+        if (token) {
+            loadaxios()
+
+        } else {
+            setUserData(null)
+            sessionStorage.clear()
+        }
+
     }, [])
     return {
         userData,
